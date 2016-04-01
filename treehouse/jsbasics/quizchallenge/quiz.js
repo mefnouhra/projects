@@ -1,7 +1,6 @@
 
 function print(message) {
- var outputDiv = document.getElementById("output");
- outputDiv.innerHTML = message;
+  document.write(message);
 }
 
 function listify(array){
@@ -12,14 +11,15 @@ function listify(array){
   print("</ol>");
 }
 
+var correctNum = 0;
+var correctAnswers = [];
+var wrongAnswers = [];
+
 var quizQs = [
   ["What is the best color?", "RED"],
   ["Where was I born?", "ALEXANDRIA"],
   ["Who's the greatest?", "MEAGAN"]
 ];
-var correctNum = 0;
-var correctAnswers = [];
-var wrongAnswers = [];
 
 
 for (x = 0; x < quizQs.length; x++){
@@ -30,24 +30,39 @@ for (x = 0; x < quizQs.length; x++){
   }
   else {
     wrongAnswers.push(quizQs[x][0]);
-  };
+  }
 }
+
+//Print Calculation
 
 if (correctNum > 1){
-  print("You got " + correctNum + " questions right!<br/><br/>")
+  print("You got " + correctNum + " questions right, bro!<br/><br/>")
 }
 else if (correctNum === 1){
-  print("You got " + correctNum + " question right!<br/><br/>")
+  print("You got " + correctNum + " question right, bro!<br/><br/>")
 }
 else {
-  print("You got no questions right!<br/><br/>")
+  print("You got every single question wrong, bro!<br/><br/>")
 }
 
-print("You got these questions correct:");
-listify(correctAnswers);
 
+//Print Questions
 
-print("You got these questions incorrect:");
-listify(wrongAnswers);
+if (correctAnswers.length === 0){
+  print("You got these questions incorrect:");
+  listify(wrongAnswers);
+}
+
+else if (wrongAnswers.length === 0){
+  print("You got these questions correct:");
+  listify(correctAnswers);
+}
+  
+else {
+  print("You got these questions correct:");
+  listify(correctAnswers);
+  print("You got these questions incorrect:");
+  listify(wrongAnswers); 
+}
 
 
