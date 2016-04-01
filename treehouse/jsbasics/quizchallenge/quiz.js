@@ -1,6 +1,7 @@
 
 function print(message) {
-  document.write(message);
+ var outputDiv = document.getElementById("output");
+ outputDiv.innerHTML = message;
 }
 
 function listify(array){
@@ -35,7 +36,7 @@ for (x = 0; x < quizQs.length; x++){
 if (correctNum > 1){
   print("You got " + correctNum + " questions right!<br/><br/>")
 }
-else if (correctNum = 1){
+else if (correctNum === 1){
   print("You got " + correctNum + " question right!<br/><br/>")
 }
 else {
