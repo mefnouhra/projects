@@ -1,65 +1,71 @@
-//Day of Action map script
+// United Way Day of Action Map 2016
 
-
-//Initialize map function 
+// Initiatlize Map function that runs on API load
 
 function initMap() {
-  var myLatLng = {lat: 38.8119040, lng: -77.0404250}; //Alexandria, VA
+  var myLatLng = {lat: 38.8119040, lng: -77.0404250};
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 3,
     center: myLatLng,
     mapTypeControl: false,
     streetViewControl: false,
-    styles: [ //styles
-  {
-    "featureType": "water",
-    "stylers": [
-      { "color": "#7c81b8" }
-    ]
-  },{
-    "featureType": "landscape.natural",
-    "stylers": [
-      { "color": "#f0e6c8" }
-    ]
-  },{
-    "featureType": "poi.park",
-    "stylers": [
-      { "color": "#e6d7aa" }
-    ]
-  },{
-  }
-]
+    styles: [ // styles from Map Wizard
+	  {
+	    "featureType": "water",
+	    "stylers": [
+	      { "color": "#7c81b8" }
+	    ]
+	  },{
+	    "featureType": "landscape.natural",
+	    "stylers": [
+	      { "color": "#f0e6c8" }
+	    ]
+	  },{
+	    "featureType": "poi.park",
+	    "stylers": [
+	      { "color": "#e6d7aa" }
+	    ]
+	  }
+	]
   });
 
-
+var prev_infowindow = false; //initialize empty previous window
+    
 function createMarker(lat,long,title,markertext){
 		var loc = new google.maps.LatLng(lat, long);
-		function pinSymbol(color, outline) {
-    			return {
-        			path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-        			fillColor: color,
-        			fillOpacity: 1,
-        			strokeColor: outline,
-        			strokeWeight: 1,
-        			scale: 1,
-   					};
-			}
+		var circle ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#fe230a',
+            fillOpacity: .6,
+            scale: 7,
+            strokeColor: '#fff',
+            strokeWeight: 1
+        };
 		var marker = new google.maps.Marker({
 				position: loc,
 				map: map,
 				title: title,
-        icon: pinSymbol("#fe230a", "#000")
-  			});	
+                icon: circle
+  		});
+    
 
 		var infowindow = new google.maps.InfoWindow({
-				content: '<span style="font-family: FF Meta W01, Helvetica Neue, Helvetica,Arial,sans-serif; color: #4F4F4F">' + markertext + '</span>'
-			});
-		google.maps.event.addListener(marker, 'click', function() {infowindow.open(map,marker);});
+				content: '<span style="font-family: FF Meta W01, Helvetica Neue, Helvetica,Arial,sans-serif; color: #4F4F4F">' 
+					+ markertext + '</span>'
+		});
+
+		google.maps.event.addListener(marker, 'click', function() {
+            if( prev_infowindow ) {
+               prev_infowindow.close(); //if previous window exists, close it
+            }
+            prev_infowindow = infowindow; // set previous window to current window
+            infowindow.open(map,marker); // open the window
+        });
 	}
 	
 
-function placeMarkers()
+function placeMarkers() //place marker function
 		{
 	 
 			createMarker(-34.600816500, -58.390649000, "Argentina", "Fundacion Caminando Juntos<Br />Ciudad de Buenos Aires Buenos Aires Argentina<br />URL: <a href='http://www.facebook.com/caminandojuntos' target='_blank'>www.facebook.com/caminandojuntos</a><br/>6° Edición del Voluntariado Gerencial. Llevaremos adelante una jornada masiva de re-acondicionamiento edilicio en una Escuela primaria o secundaria. Se estarán realizando actividades de pintura de espacios, creación de mobiliario y generación de materiales didácticos, entre otros. Serán invitados los Ceo´s y niveles genrenciales de las empresas socias, junto a sus familias.");
